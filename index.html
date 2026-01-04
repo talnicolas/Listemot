@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vocabulaire – Mot au hasard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .app {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+    select, button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-top: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    .word {
+      font-size: 32px;
+      margin: 24px 0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Mot à épeler</h1><select id="groupSelect">
+  <option value="all">Tous les groupes</option>
+  <optgroup label="Première feuille">
+    <option value="1">Groupe 1</option>
+    <option value="2">Groupe 2</option>
+    <option value="3">Groupe 3</option>
+    <option value="4">Groupe 4</option>
+    <option value="5">Groupe 5</option>
+    <option value="6">Groupe 6</option>
+  </optgroup>
+  <optgroup label="Deuxième feuille">
+    <option value="7">Groupe 7</option>
+    <option value="8">Groupe 8</option>
+    <option value="9">Groupe 9</option>
+    <option value="10">Groupe 10</option>
+    <option value="11">Groupe 11</option>
+    <option value="12">Groupe 12</option>
+  </optgroup>
+  <optgroup label="Troisième feuille">
+    <option value="19">Groupe 19</option>
+    <option value="20">Groupe 20</option>
+    <option value="21">Groupe 21</option>
+    <option value="22">Groupe 22</option>
+    <option value="23">Groupe 23</option>
+    <option value="24">Groupe 24</option>
+  </optgroup>
+</select>
+
+<div class="word" id="word">Appuie sur le bouton</div>
+
+<button onclick="newWord()">Mot suivant</button>
+
+  </div>  <script>
+    const groups = {
+      1: ["à","la","le","on","ma","mon","ta","ton","sa","son","ami","amie","aime","il","lit","de","du","midi","dame","je","tu","lire","livre","lune","lundi","un","une","classe","bébé","école","et","papa","pomme","frère","mère","père","nous","vous","elle","belle","fête","tête","pas","petit","petite","lettre","table","robe","ou","cou","coup","bouche","jouer","loup","louve","poupée","rouge","route","poule"],
+      7: ["bonbon","bon","bonne","donner","garçon","monde","montagne","maison","mouton","poisson","nom","dix","six","maman","manger","demander","sac","samedi","souris","un enfant","une enfant","dans","rue","blanc","blanche","dimanche","famille","fille","ville","grand","grande","dent","vent","vendredi","doux","douce","gris","grise","gros","grosse","jour","journée","pouvoir","vouloir","devoir","un devoir","eau","beau","beaucoup","chapeau","oiseau","arbre","carte","jardin","parler","marche","mardi","regarder","les","des","mes","ses","tes","forêt","porte","fenêtre","neige","mais"],
+      19: ["main","pain","train","plein","pleine","huit","nuit","pluie","plus","feuille","j'ai","tu as","il a","nous avons","vous avez","ils ont","chercher","merci","mercredi","personne","terre","papier","voler","lever","premier","première","je suis","tu es","il est","nous sommes","vous êtes","ils sont","mot","vélo","vie","heure","fleur","cinq","quatre","quand","queue","musique","qui","air","aile","ciel","cieux","page","pays","pauvre","phrase","place","plaisir","finir","devenir","dormir","ouvrir"]
+    };
+
+    function newWord() {
+      const select = document.getElementById('groupSelect').value;
+      let words = [];
+
+      if (select === 'all') {
+        Object.values(groups).forEach(g => words = words.concat(g));
+      } else {
+        words = groups[select];
+      }
+
+      const random = words[Math.floor(Math.random() * words.length)];
+      document.getElementById('word').textContent = random;
+    }
+  </script></body>
+</html>
