@@ -79,50 +79,88 @@
   </optgroup>
 </select>
 
-<div class="word" id="word">Appuie sur le bouton</div>
+<div class="word" id="word">Choisis un groupe</div>
 
-<button onclick="newWord()">Mot suivant</button>
+<button onclick="prevWord()">Mot précédent</button>
+<button onclick="nextWord()">Mot suivant</button>
 
   </div>  <script>
-    const groups = {
-  1: ["à","la","le","on","ma","mon","ta","ton","sa","son"],
-  2: ["ami","amie","aime","il","lit","de","du","midi","dame"],
-  3: ["je","tu","lire","livre","lune","lundi","un","une","classe"],
-  4: ["bébé","école","et","papa","pomme","frère","mère","père","nous","vous"],
-  5: ["elle","belle","fête","tête","pas","petit","petite","lettre","table","robe"],
-  6: ["ou","cou","coup","bouche","jouer","loup","louve","poupée","rouge","route","poule"],
-  7: ["bonbon","bon","bonne","donner","garçon","monde","montagne","maison","mouton","poisson","nom"],
-  8: ["dix","six","maman","manger","demander","sac","samedi","souris","un enfant","une enfant","dans","rue"],
-  9: ["blanc","blanche","dimanche","famille","fille","ville","grand","grande","dent","vent","vendredi"],
-  10: ["doux","douce","gris","grise","gros","grosse","jour","journée","pouvoir","vouloir","devoir","un devoir"],
-  11: ["eau","beau","beaucoup","chapeau","oiseau","arbre","carte","jardin","parler","marche","mardi","regarder"],
-  12: ["les","des","mes","ses","tes","forêt","porte","fenêtre","neige","mais"],
-  13: ["roi","fois","joie","trois","histoire","noir","noire","voir","soir","nez","pied"],
-  14: ["brun","brune","chaud","chaude","jaune","long","longue","vert","verte","cher","chère"],
-  15: ["animaux","chat","chatte","chien","chienne","chanter","cheval","chevaux","chambre"],
-  16: ["bleu","bleue","bras","feu","cheveu","deux","yeux","œil","heureux","heureuse"],
-  17: ["lapin","lapine","chemin","matin","cœur","sœur","neuf","œuf","sept","oreille","soleil"],
-  18: ["j’aime","tu aimes","il aime","nous aimons","vous aimez","ils aiment","joli","jolie","jeu","jeudi"],
-  19: ["main","pain","train","plein","pleine","huit","nuit","pluie","plus","feuille"],
-  20: ["j’ai","tu as","il a","nous avons","vous avez","ils ont","chose","rose","visage"],
-  21: ["chercher","merci","mercredi","personne","terre","papier","voler","lever","premier","le premier","première","la première"],
-  22: ["je suis","tu es","il est","nous sommes","vous êtes","ils sont","mot","vélo","vie","heure","fleur"],
-  23: ["cinq","quatre","quand","queue","musique","qui","air","aile","ciel","cieux"],
-  24: ["page","pays","pauvre","phrase","place","plaisir","finir","devenir","dormir","ouvrir"]
-};
+  const groups = {
+    1: ["à","la","le","on","ma","mon","ta","ton","sa","son"],
+    2: ["ami","amie","aime","il","lit","de","du","midi","dame"],
+    3: ["je","tu","lire","livre","lune","lundi","un","une","classe"],
+    4: ["bébé","école","et","papa","pomme","frère","mère","père","nous","vous"],
+    5: ["elle","belle","fête","tête","pas","petit","petite","lettre","table","robe"],
+    6: ["ou","cou","coup","bouche","jouer","loup","louve","poupée","rouge","route","poule"],
+    7: ["bonbon","bon","bonne","donner","garçon","monde","montagne","maison","mouton","poisson","nom"],
+    8: ["dix","six","maman","manger","demander","sac","samedi","souris","un enfant","une enfant","dans","rue"],
+    9: ["blanc","blanche","dimanche","famille","fille","ville","grand","grande","dent","vent","vendredi"],
+    10: ["doux","douce","gris","grise","gros","grosse","jour","journée","pouvoir","vouloir","devoir","un devoir"],
+    11: ["eau","beau","beaucoup","chapeau","oiseau","arbre","carte","jardin","parler","marche","mardi","regarder"],
+    12: ["les","des","mes","ses","tes","forêt","porte","fenêtre","neige","mais"],
+    13: ["roi","fois","joie","trois","histoire","noir","noire","voir","soir","nez","pied"],
+    14: ["brun","brune","chaud","chaude","jaune","long","longue","vert","verte","cher","chère"],
+    15: ["animaux","chat","chatte","chien","chienne","chanter","cheval","chevaux","chambre"],
+    16: ["bleu","bleue","bras","feu","cheveu","deux","yeux","œil","heureux","heureuse"],
+    17: ["lapin","lapine","chemin","matin","cœur","sœur","neuf","œuf","sept","oreille","soleil"],
+    18: ["j’aime","tu aimes","il aime","nous aimons","vous aimez","ils aiment","joli","jolie","jeu","jeudi"],
+    19: ["main","pain","train","plein","pleine","huit","nuit","pluie","plus","feuille"],
+    20: ["j’ai","tu as","il a","nous avons","vous avez","ils ont","chose","rose","visage"],
+    21: ["chercher","merci","mercredi","personne","terre","papier","voler","lever","premier","le premier","première","la première"],
+    22: ["je suis","tu es","il est","nous sommes","vous êtes","ils sont","mot","vélo","vie","heure","fleur"],
+    23: ["cinq","quatre","quand","queue","musique","qui","air","aile","ciel","cieux"],
+    24: ["page","pays","pauvre","phrase","place","plaisir","finir","devenir","dormir","ouvrir"]
+  };
 
-    function newWord() {
-      const select = document.getElementById('groupSelect').value;
-      let words = [];
+  let currentList = [];
+  let currentIndex = -1;
 
-      if (select === 'all') {
-        Object.values(groups).forEach(g => words = words.concat(g));
-      } else {
-        words = groups[select];
-      }
-
-      const random = words[Math.floor(Math.random() * words.length)];
-      document.getElementById('word').textContent = random;
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-  </script></body>
+    return array;
+  }
+
+  function loadGroup() {
+    const select = document.getElementById('groupSelect').value;
+    let words = [];
+
+    if (select === 'all') {
+      Object.values(groups).forEach(g => words = words.concat(g));
+    } else {
+      words = [...groups[select]];
+    }
+
+    currentList = shuffle(words);
+    currentIndex = 0;
+    showWord();
+  }
+
+  function showWord() {
+    if (currentIndex < 0 || currentIndex >= currentList.length) {
+      document.getElementById('word').textContent = '🎉 Groupe terminé !';
+    } else {
+      document.getElementById('word').textContent = currentList[currentIndex];
+    }
+  }
+
+  function nextWord() {
+    if (currentIndex === -1) loadGroup();
+    else if (currentIndex < currentList.length) {
+      currentIndex++;
+      showWord();
+    }
+  }
+
+  function prevWord() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      showWord();
+    }
+  }
+
+  document.getElementById('groupSelect').addEventListener('change', loadGroup);
+</script></body>
 </html>
