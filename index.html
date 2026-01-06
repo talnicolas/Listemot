@@ -80,7 +80,6 @@
 </select>
 
 <div class="word" id="word">Choisis un groupe</div>
-<img id="image" alt="Illustration" style="max-width:100%;height:180px;object-fit:contain;border-radius:12px;" />
 
 <button onclick="prevWord()">Mot précédent</button>
 <button onclick="nextWord()">Mot suivant</button>
@@ -140,33 +139,9 @@
   }
 
   function showWord() {
-    const img = document.getElementById('image');
     if (currentIndex < 0 || currentIndex >= currentList.length) {
       document.getElementById('word').textContent = '🎉 Groupe terminé !';
-      img.src = '';
-      img.alt = '';
     } else {
-      const w = currentList[currentIndex];
-      document.getElementById('word').textContent = w;
-      // Image handling with safe fallback (works even when external images are blocked)
-      const emojiMap = {
-        "chat":"🐱","chien":"🐶","pomme":"🍎","maison":"🏠","livre":"📖","école":"🏫",
-        "soleil":"☀️","lune":"🌙","fleur":"🌸","poisson":"🐟","oiseau":"🐦",
-        "vélo":"🚲","train":"🚆","pain":"🍞","eau":"💧","neige":"❄️",
-        "arbre":"🌳","porte":"🚪","fenêtre":"🪟","route":"🛣️"
-      };
-
-      if (emojiMap[w]) {
-        img.style.display = 'none';
-        document.getElementById('word').innerHTML = w + '<div style="font-size:64px;margin-top:12px">' + emojiMap[w] + '</div>';
-      } else {
-        img.style.display = 'block';
-        img.src = 'https://picsum.photos/300/200';
-        img.alt = `Illustration`;
-      }
-      img.alt = `Illustration pour ${w}`;
-    }
-  } else {
       document.getElementById('word').textContent = currentList[currentIndex];
     }
   }
